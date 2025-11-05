@@ -1,6 +1,7 @@
 from loans.models import Book
 from django.test import TestCase
 from django.core.exceptions import ValidationError
+from django.db.utils import IntegrityError
 import datetime
 
 class BookTestCase(TestCase):
@@ -59,6 +60,23 @@ class BookTestCase(TestCase):
         self.assertEqual(saved_book.title, self.book.title)
         self.assertEqual(saved_book.isbn, self.book.isbn)
         self.assertEqual(saved_book.publication_date, self.book.publication_date)
+
+    
+    def test_book_isbn_must_be_unique(self):
+        self.book.save()
+        another_book = Book(
+            author="Different Author",
+            title="Different Title",
+            isbn=self.book.isbn,  # Duplicate ISBN
+            publication_date=datetime.date(1999, 12, 31)
+        )
+        with self.assertRaises(IntegrityError):
+            Book.objects.create(
+                author=another_book.author,
+                title=another_book.title,
+                isbn=another_book.isbn,
+                publication_date=another_book.publication_date
+            )
 
 
     
