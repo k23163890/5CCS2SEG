@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 import random
 from django.urls import reverse
+from .forms import BookForm
 
 
 SLOGAN_LIST = [

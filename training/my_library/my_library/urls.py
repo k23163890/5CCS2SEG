@@ -24,4 +24,6 @@ urlpatterns = [
     path('welcome/', views.welcome_view, name='welcome'),
     path('book/<int:book_id>/<int:foo>/<int:bar>', views.get_book, name='get_book'),
     path('admin/', admin.site.urls),
+    path('create_book/', views.create_book, name='create_book'),
+    path('books/', views.list_books, name='list_books'),  # Add this line
 ]
